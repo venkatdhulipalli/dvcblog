@@ -2,3 +2,19 @@ baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'My Blog'
 theme = 'ananke'
+[security.exec]
+    allow = ['^asciidoctor$']
+[params]
+    custom_css = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css", "adoc.css"]
+[markup]
+    [markup.asciidocExt]
+        [markup.asciidocExt.attributes]
+            allow-uri-read = ""
+            source-highlighter = "rouge"
+            rouge-css = "style"
+            rouge-style = "thankful_eyes"
+            imagesdir = "/images"
+            icons = "font"
+[security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']            
