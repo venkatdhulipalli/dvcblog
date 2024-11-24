@@ -1,6 +1,6 @@
 [build]
     publish = "public"
-    command = "gem install bundler -v 2.4.22 && bundle install && hugo --minify"
+    command = "hugo --minify"
 
 [build.environment]
     HUGO_VERSION = "0.137.1"
