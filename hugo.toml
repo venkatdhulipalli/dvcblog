@@ -3,7 +3,8 @@ languageCode = 'en-us'
 title = 'My Blog'
 theme = 'ananke'
 [security.exec]
-    allow = ['^asciidoctor$']
+    allow = ['^(dart)-sass(-embedded)?$','^go$','^npx$','^postcss$','^rst2html.py$','^rst2html.py$','^rst2html$','^asciidoctor$']
+    osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM|HOME|GEM_PATH)$']
 [params]
     custom_css = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css", "adoc.css"]
 [markup]
@@ -18,6 +19,4 @@ theme = 'ananke'
 [security.http]
     methods = ['(?i)GET|POST']
     urls = ['.*']
-[security.exec]
-    allow = ['^(dart)-sass(-embedded)?$','^go$','^npx$','^postcss$','^rst2html.py$','^rst2html.py$','^rst2html$','^asciidoctor$']
-    osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM|HOME|GEM_PATH)$']
+    
