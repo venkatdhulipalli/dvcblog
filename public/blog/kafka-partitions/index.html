@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Kafka partitions and more | DVC Blog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="
+In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like
+
+
+
+/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex
+
+
+
+Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position
+">
+    <meta name="generator" content="Hugo 0.138.0">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+
+  
+    <link rel="stylesheet" href="/adoc.css">
+  
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/blog/kafka-partitions/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/blog/kafka-partitions/">
+  <meta property="og:site_name" content="DVC Blog">
+  <meta property="og:title" content="Kafka partitions and more">
+  <meta property="og:description" content="In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like
+/var/kafka/topic-data/orders-0 ├── 00000000000000000000.index ├── 00000000000000000000.log ├── 00000000000000000000.timeindex Log file - Contains records with details like offset, position, size, key, value Index file - A memory mapped file thats maps offset to position Timeindex file - A memory mapped file that maps timestamp to position">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-07-20T09:39:58+05:30">
+    <meta property="article:modified_time" content="2023-07-20T09:39:58+05:30">
+    <meta property="article:tag" content="Kafka">
+    <meta property="article:tag" content="Partitions">
+    <meta property="article:tag" content="Segments">
+    <meta property="article:tag" content="Retention">
+    <meta property="article:tag" content="Compaction">
+
+  <meta itemprop="name" content="Kafka partitions and more">
+  <meta itemprop="description" content="In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like
+/var/kafka/topic-data/orders-0 ├── 00000000000000000000.index ├── 00000000000000000000.log ├── 00000000000000000000.timeindex Log file - Contains records with details like offset, position, size, key, value Index file - A memory mapped file thats maps offset to position Timeindex file - A memory mapped file that maps timestamp to position">
+  <meta itemprop="datePublished" content="2023-07-20T09:39:58+05:30">
+  <meta itemprop="dateModified" content="2023-07-20T09:39:58+05:30">
+  <meta itemprop="wordCount" content="478">
+  <meta itemprop="keywords" content="Kafka,Partitions,Segments,Retention,Compaction">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kafka partitions and more">
+  <meta name="twitter:description" content="In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like
+/var/kafka/topic-data/orders-0 ├── 00000000000000000000.index ├── 00000000000000000000.log ├── 00000000000000000000.timeindex Log file - Contains records with details like offset, position, size, key, value Index file - A memory mapped file thats maps offset to position Timeindex file - A memory mapped file that maps timestamp to position">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        DVC Blog
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/blog/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="Contact page">
+              Contact
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Blogs
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Kafka partitions and more</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2023-07-20T09:39:58+05:30">July 20, 2023</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+<div class="sect2">
+<h3 id="_segments">Segments</h3>
+<div class="paragraph">
+<p>Broker appending records to the log file means over time it can grow to enormous size. Kafka addressses this problem by breaking files into parts called segments. If a log file reaches configured size broker creates a new segment
+that is considered as active segment. This process goes on.</p>
+</div>
+<div class="paragraph">
+<p>This is how a partition with segments looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex
+├── 00000000000000666666.index
+├── 00000000000000666666.log
+├── 00000000000000666666.timeindex
+├── 00000000000000888888.index
+├── 00000000000000888888.log
+├── 00000000000000888888.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configurations to control segment
+by size - log.segment.bytes (1 MB by default)
+by time - log.roll.ms or log.roll.hours</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_retention">Data retention</h3>
+<div class="paragraph">
+<p>As data keeps coming in, brokers need to cleanup old data to free up space on the file system. There are two approaches to perform cleanup i.e. deletion and compaction</p>
+</div>
+<div class="sect3">
+<h4 id="_deletion_policy">Deletion policy</h4>
+<div class="paragraph">
+<p>Brokers can delete files by time and/or size.</p>
+</div>
+<div class="paragraph">
+<p>1) time</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>log.retention.ms
+log.retention.minutes
+log.retention.hours (default is 1 hr)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Brokers will delete segments with timestamp older than configured time. If there was no concept of segments, brokers will have to scan through monolithic log file and cleanup records older than configured time which would be an cumbersome process.</p>
+</div>
+<div class="paragraph">
+<p>2) size</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>log.retention.bytes</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default this property is set to -1. In case both time and size are configured, brokers will perform cleanup by what ever condition is met first.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_compaction_policy">Compaction policy</h4>
+<div class="paragraph">
+<p>Imagine a use case where a key receives updated value constantly (ex: stock ticker) and server crashes after last update. If we were using log deletion policy and the segment that has latest update gets deleted before crash we would have lost the last update for the key. This is when log compaction comes into play where records with same key gets updated with latest value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>log.cleanup.policy=compact</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Above property needs to be set up while creating the topic.</p>
+</div>
+<div class="paragraph">
+<p>If we ever want to get rid of a record from the log, we need to send an update with null value for the key (tombstone marker)</p>
+</div>
+<div class="paragraph">
+<p><strong>For use case where events/records are standalone use log deletion policy and for use case where events/records are updates use log compaction</strong></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_publishing_side">Publishing side</h3>
+<div class="paragraph">
+<p>While publishing a publisher can assign partition for a message. If no partition is assigned Kafka broker assigns parition in round robin fashion.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consumption_side">Consumption side</h3>
+
+</div>
+<ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/kafka/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Kafka</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/partitions/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Partitions</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/segments/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Segments</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/retention/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Retention</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/compaction/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Compaction</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  DVC Blog 2024 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

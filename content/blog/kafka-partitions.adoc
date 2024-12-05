@@ -1,0 +1,87 @@
+---
+title: "Kafka partitions and more"
+date: 2023-07-20T09:39:58+05:30
+draft: false
+categories:
+  - Kafka
+tags:
+  - kafka
+  - partitions
+  - segments
+  - retention
+  - compaction
+---
+In this post, let's delve into how a topic's data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here's how a parition physical directory looks like 
+
+----
+/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex
+----
+
+Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position
+
+=== Segments
+
+Broker appending records to the log file means over time it can grow to enormous size. Kafka addressses this problem by breaking files into parts called segments. If a log file reaches configured size broker creates a new segment
+that is considered as active segment. This process goes on. 
+
+This is how a partition with segments looks like
+----
+/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex
+├── 00000000000000666666.index
+├── 00000000000000666666.log
+├── 00000000000000666666.timeindex
+├── 00000000000000888888.index
+├── 00000000000000888888.log
+├── 00000000000000888888.timeindex
+----
+
+Configurations to control segment
+by size - log.segment.bytes (1 MB by default) 
+by time - log.roll.ms or log.roll.hours
+
+=== Data retention
+
+As data keeps coming in, brokers need to cleanup old data to free up space on the file system. There are two approaches to perform cleanup i.e. deletion and compaction
+
+==== Deletion policy
+
+Brokers can delete files by time and/or size.
+
+1) time
+----
+log.retention.ms
+log.retention.minutes
+log.retention.hours (default is 1 hr)
+----
+Brokers will delete segments with timestamp older than configured time. If there was no concept of segments, brokers will have to scan through monolithic log file and cleanup records older than configured time which would be an cumbersome process.
+
+2) size
+----
+log.retention.bytes
+----
+By default this property is set to -1. In case both time and size are configured, brokers will perform cleanup by what ever condition is met first.
+
+==== Compaction policy
+Imagine a use case where a key receives updated value constantly (ex: stock ticker) and server crashes after last update. If we were using log deletion policy and the segment that has latest update gets deleted before crash we would have lost the last update for the key. This is when log compaction comes into play where records with same key gets updated with latest value.
+----
+log.cleanup.policy=compact
+----
+Above property needs to be set up while creating the topic.
+
+If we ever want to get rid of a record from the log, we need to send an update with null value for the key (tombstone marker)
+
+*For use case where events/records are standalone use log deletion policy and for use case where events/records are updates use log compaction*
+
+=== Publishing side
+While publishing a publisher can assign partition for a message. If no partition is assigned Kafka broker assigns parition in round robin fashion. 
+
+
+=== Consumption side

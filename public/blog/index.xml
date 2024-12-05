@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on DVC Blog</title>
-    <link>http://localhost:1313/tags/java/</link>
-    <description>Recent content in Java on DVC Blog</description>
+    <title>Blogs on DVC Blog</title>
+    <link>http://localhost:1313/blog/</link>
+    <description>Recent content in Blogs on DVC Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 20 Jul 2023 09:39:58 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kafka partitions and more</title>
+      <link>http://localhost:1313/blog/kafka-partitions/</link>
+      <pubDate>Thu, 20 Jul 2023 09:39:58 +0530</pubDate>
+      <guid>http://localhost:1313/blog/kafka-partitions/</guid>
+      <description>&lt;div class=&#34;paragraph&#34;&gt;&#xA;&lt;p&gt;In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like&lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&#34;listingblock&#34;&gt;&#xA;&lt;div class=&#34;content&#34;&gt;&#xA;&lt;pre&gt;/var/kafka/topic-data/orders-0&#xA;├── 00000000000000000000.index&#xA;├── 00000000000000000000.log&#xA;├── 00000000000000000000.timeindex&lt;/pre&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&#34;paragraph&#34;&gt;&#xA;&lt;p&gt;Log file - Contains records with details like offset, position, size, key, value&#xA;Index file - A memory mapped file thats maps offset to position&#xA;Timeindex file - A memory mapped file that maps timestamp to position&lt;/p&gt;&#xA;&lt;/div&gt;</description>
+    </item>
     <item>
       <title>This is my second post</title>
       <link>http://localhost:1313/blog/my-second-post/</link>

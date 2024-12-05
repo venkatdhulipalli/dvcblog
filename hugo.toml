@@ -1,7 +1,36 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'My Blog'
+title = 'DVC Blog'
+description = 'A blog on Java, Microservices, Kafka, AI and some ramblings on life...'
 theme = 'ananke'
+
+[menus]
+  [[menus.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 30
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+  [[menus.main]]
+    name = 'Blog'
+    pageRef = '/blog'
+    weight = 20
+  [[menus.main]]
+    name = 'Contact'
+    pageRef = '/contact'
+    weight = 40    
+  [[menus.footer]]
+    name = 'Terms'
+    pageRef = '/terms'
+    weight = 10
+  [[menus.footer]]
+    name = 'Privacy'
+    pageRef = '/privacy'
+    weight = 20
+
+
 [security.exec]
     allow = ['^(dart)-sass(-embedded)?$','^go$','^npx$','^postcss$','^rst2html.py$','^rst2html.py$','^rst2html$','^asciidoctor$']
     osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM|HOME|GEM_PATH)$']

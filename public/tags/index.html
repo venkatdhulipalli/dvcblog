@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>My Blog</title>
+    <title>DVC Blog</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="">
     <meta name="generator" content="Hugo 0.138.0">
@@ -37,8 +37,8 @@
 
     
     
-      <link href="/tags/index.xml" rel="alternate" type="application/rss+xml" title="My Blog" />
-      <link href="/tags/index.xml" rel="feed" type="application/rss+xml" title="My Blog" />
+      <link href="/tags/index.xml" rel="alternate" type="application/rss+xml" title="DVC Blog" />
+      <link href="/tags/index.xml" rel="feed" type="application/rss+xml" title="DVC Blog" />
       
     
 
@@ -47,7 +47,7 @@
     
 
     <meta property="og:url" content="http://localhost:1313/tags/">
-  <meta property="og:site_name" content="My Blog">
+  <meta property="og:site_name" content="DVC Blog">
   <meta property="og:title" content="Tags">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
@@ -69,12 +69,40 @@
   <div class="flex-l justify-between items-center center">
     <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
       
-        My Blog
+        DVC Blog
       
     </a>
     <div class="flex-l items-center">
       
 
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/blog/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="Contact page">
+              Contact
+            </a>
+          </li>
+          
+        </ul>
       
       <div class="ananke-socials"></div>
 
@@ -104,6 +132,44 @@
     <section class="ph4">
       
         <h2 class="f1">
+          <a href="/tags/compaction/" class="link blue hover-black">
+            Tag: Compaction
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Blogs</span>
+    <h1 class="f3 near-black">
+      <a href="/blog/kafka-partitions/" class="link black dim">
+        Kafka partitions and more
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+    </div>
+    <a href="/blog/kafka-partitions/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/java/" class="link blue hover-black">
             Tag: Java
           </a>
@@ -111,9 +177,9 @@
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
+    <span class="f6 db">Blogs</span>
     <h1 class="f3 near-black">
-      <a href="/posts/my-second-post/" class="link black dim">
+      <a href="/blog/my-second-post/" class="link black dim">
         This is my second post
       </a>
     </h1>
@@ -213,7 +279,159 @@
 <p>Here is how to write code snippet using Asciidoc format.</p>
 </div>
     </div>
-    <a href="/posts/my-second-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/blog/my-second-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/kafka/" class="link blue hover-black">
+            Tag: Kafka
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Blogs</span>
+    <h1 class="f3 near-black">
+      <a href="/blog/kafka-partitions/" class="link black dim">
+        Kafka partitions and more
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+    </div>
+    <a href="/blog/kafka-partitions/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/partitions/" class="link blue hover-black">
+            Tag: Partitions
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Blogs</span>
+    <h1 class="f3 near-black">
+      <a href="/blog/kafka-partitions/" class="link black dim">
+        Kafka partitions and more
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+    </div>
+    <a href="/blog/kafka-partitions/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/retention/" class="link blue hover-black">
+            Tag: Retention
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Blogs</span>
+    <h1 class="f3 near-black">
+      <a href="/blog/kafka-partitions/" class="link black dim">
+        Kafka partitions and more
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+    </div>
+    <a href="/blog/kafka-partitions/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/segments/" class="link blue hover-black">
+            Tag: Segments
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Blogs</span>
+    <h1 class="f3 near-black">
+      <a href="/blog/kafka-partitions/" class="link black dim">
+        Kafka partitions and more
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <div class="paragraph">
+<p>In this post, let’s delve into how a topic’s data is persisted and retained. While topics are logical grouping of records partitions are physical storage where the records are written to. Partitions are used to improve throughput and are spread across multiple brokers to distribute load. Parition represents a directory on a file system. Here’s how a parition physical directory looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/var/kafka/topic-data/orders-0
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log file - Contains records with details like offset, position, size, key, value
+Index file - A memory mapped file thats maps offset to position
+Timeindex file - A memory mapped file that maps timestamp to position</p>
+</div>
+    </div>
+    <a href="/blog/kafka-partitions/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
@@ -227,9 +445,9 @@
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
+    <span class="f6 db">Blogs</span>
     <h1 class="f3 near-black">
-      <a href="/posts/my-second-post/" class="link black dim">
+      <a href="/blog/my-second-post/" class="link black dim">
         This is my second post
       </a>
     </h1>
@@ -329,7 +547,7 @@
 <p>Here is how to write code snippet using Asciidoc format.</p>
 </div>
     </div>
-    <a href="/posts/my-second-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/blog/my-second-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
@@ -342,7 +560,7 @@
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
-    &copy;  My Blog 2024 
+    &copy;  DVC Blog 2024 
   </a>
     <div><div class="ananke-socials"></div>
 </div>
